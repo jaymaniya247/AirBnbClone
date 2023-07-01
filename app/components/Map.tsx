@@ -11,6 +11,7 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 // @ts-ignore
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon.src,
   iconRetinaUrl: markerIcon2x.src,
   shadowUrl: markerShadow.src,
 });
@@ -18,7 +19,6 @@ L.Icon.Default.mergeOptions({
 interface mapProps {
   center?: number[];
 }
-
 const Map: React.FC<mapProps> = ({ center }) => {
   return (
     <div>
