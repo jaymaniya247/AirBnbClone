@@ -1,0 +1,1 @@
+For generating prisma migration with mongoDb : npx prisma generate
