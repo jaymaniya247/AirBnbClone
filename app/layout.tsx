@@ -5,7 +5,7 @@ import "./globals.css";
 import { Nunito } from "next/font/google";
 import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "./components/modals/LoginModal";
-import getCurruntUser from "./actions/getCurrentUser";
+import getCurrentUser from "./actions/getCurrentUser";
 import RentsModal from "./components/modals/RentsModal";
 
 const font = Nunito({ subsets: ["latin"] });
@@ -20,7 +20,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const currentUser = await getCurruntUser();
+  const currentUser = await getCurrentUser();
   return (
     <html lang="en">
       <body className={font.className}>
@@ -31,7 +31,8 @@ export default async function RootLayout({
           <RentsModal />
           <Navbar currentUser={currentUser} />
         </ClientOnly>
-        {children}
+
+        <div className="pb-20 pt-48">{children}</div>
       </body>
     </html>
   );

@@ -1,1 +1,3 @@
 For generating prisma migration with mongoDb : npx prisma generate
+
+We should make custom hooks for some reaccuring tasks and make it less complicated
