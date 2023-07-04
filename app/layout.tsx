@@ -32,7 +32,7 @@ export default async function RootLayout({
           <Navbar currentUser={currentUser} />
         </ClientOnly>
 
-        <div className="pb-20 pt-48">{children}</div>
+        <div className="pb-20 pt-24">{children}</div>
       </body>
     </html>
   );
