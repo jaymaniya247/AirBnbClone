@@ -5,7 +5,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
+import { differenceInDays, eachDayOfInterval } from "date-fns";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { safeListing, safeUser } from "@/app/types";
 
@@ -14,6 +14,7 @@ import Container from "@/app/components/Container";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
+import { Range } from "react-date-range";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -26,7 +27,7 @@ interface ListingClientProps {
   listing: safeListing & {
     user: safeUser;
   };
-  currentUser: safeUser | null;
+  currentUser?: safeUser | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
@@ -40,7 +41,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
 
-    reservations.forEach((reservation) => {
+    reservations.forEach((reservation: any) => {
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),
@@ -54,7 +55,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   const onCreateReservation = useCallback(() => {
     if (!currentUser) {
@@ -95,10 +96,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
-      const dayCount = differenceInCalendarDays(
-        dateRange.endDate,
-        dateRange.startDate
-      );
+      const dayCount = differenceInDays(dateRange.endDate, dateRange.startDate);
 
       if (dayCount && listing.price) {
         setTotalPrice(dayCount * listing.price);
@@ -106,7 +104,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
         setTotalPrice(listing.price);
       }
     }
-  }, [dateRange.endDate, dateRange.startDate, listing.price]);
+  }, [dateRange, listing.price]);
 
   const category = useMemo(() => {
     return categories.find((item) => item.label === listing.category);
